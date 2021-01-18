@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.apache.ibatis.aTest.mapper.UserMapper">
+    <resultMap id="userMap" type="org.apache.ibatis.aTest.pojo.User">
+        <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+        <result column="USERNAME" jdbcType="VARCHAR" property="userName" />
+        <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
+        <result column="SSEX" jdbcType="VARCHAR" property="sex" />
+        <result column="EMAIL" jdbcType="VARCHAR" property="email" />
+        <result column="MOBILE" jdbcType="VARCHAR" property="mobile" />
+        <result column="STATUS" jdbcType="VARCHAR" property="status" />
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="MODIFY_TIME" jdbcType="TIMESTAMP" property="modifyTime" />
+        <result column="LAST_LOGIN_TIME" jdbcType="TIMESTAMP" property="lastLoginTime" />
+        <result column="DESCRIPTION" jdbcType="VARCHAR" property="description" />
+    </resultMap>
+
+    <sql id="baseSql">
+        USER_ID,USERNAME,PASSWORD,SSEX,EMAIL,MOBILE,STATUS,CREATE_TIME,MODIFY_TIME,LAST_LOGIN_TIME,DESCRIPTION
+    </sql>
+
+    <sql id="countUserDetailSql">
+        SELECT
+        COUNT(1)
+        FROM
+        user u
+        WHERE 1 = 1
+        <if test="user.userName != null and user.userName != ''">
+            AND u.userName = #{user.userName}
+        </if>
+        <if test="user.sex != null and user.sex != ''">
+            AND u.ssex = #{user.sex}
+        </if>
+        <if test="user.status != null and user.status != ''">
+            AND u.status = #{user.status}
+        </if>
+        <if test="user.mobile != null and user.mobile != ''">
+            AND u.mobile = #{user.mobile}
+        </if>
+    </sql>
+
+    <update id="updateUser" parameterType="org.apache.ibatis.aTest.pojo.User">
+        update user
+        <trim prefix="set" suffixOverrides=",">
+            <if test="userName != null and userName != ''">
+                USERNAME = #{userName, jdbcType=VARCHAR},
+            </if>
+            <if test="password != null and password != ''">
+                PASSWORD = #{password, jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                SSEX = #{sex},
+            </if>
+            <if test="email != null and email != ''">
+                EMAIL = #{email, jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null and mobile != ''">
+                MOBILE = #{mobile, jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                STATUS = #{status},
+            </if>
+            <if test="modifyTime != null">
+                MODIFY_TIME = #{modifyTime},
+            </if>
+            <if test="lastLoginTime != null">
+                LAST_LOGIN_TIME = #{lastLoginTime},
+            </if>
+            <if test="description != null">
+                DESCRIPTION = #{description},
+            </if>
+        </trim>
+        where 1=1
+        <if test="userId != null and userId != ''">
+            and USER_ID = #{userId}
+        </if>
+        <if test="userName != null and userName != ''">
+            and USERNAME = #{userName, jdbcType=VARCHAR}
+        </if>
+    </update>
+
+    <delete id="deleteUser">
+        delete from user
+        where 1=1
+        <if test="userId != null and userId != ''">
+            and USER_ID = #{userId, jdbcType=VARCHAR}
+        </if>
+        <if test="userName != null and userName != ''">
+            and USERNAME = #{userName, jdbcType=VARCHAR}
+        </if>
+    </delete>
+
+    <sql id="findUserDetailSql">
+        SELECT USER_ID,USERNAME,PASSWORD,SSEX,EMAIL,MOBILE,STATUS,CREATE_TIME,MODIFY_TIME,LAST_LOGIN_TIME,DESCRIPTION
+        FROM
+        user
+        WHERE 1 = 1
+        <if test="userId != null and userId != ''">
+            AND USER_ID = #{userId}
+        </if>
+        <if test="userName != null and userName != ''">
+            AND USERNAME like CONCAT('%',#{userName,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="sex != null and sex != ''">
+            AND SSEX = #{sex}
+        </if>
+        <if test="status != null and status != ''">
+            AND STATUS = #{status}
+        </if>
+        <if test="mobile != null and mobile != ''">
+            AND MOBILE = #{mobile}
+        </if>
+        GROUP BY
+        USERNAME,
+        USER_ID,
+        EMAIL,
+        MOBILE,
+        STATUS,
+        CREATE_TIME,
+        SSEX,
+        LAST_LOGIN_TIME,
+        MODIFY_TIME,
+        DESCRIPTION
+    </sql>
+    <insert id="insertUser" parameterType="org.apache.ibatis.aTest.pojo.User">
+        insert into user
+        values (
+            #{userId}, #{userName}, #{password}, #{sex}, #{email}, #{mobile}, #{status}, #{createTime}, #{modifyTime}, #{lastLoginTime}, #{description}
+        )
+    </insert>
+
+    <select id="findByName" parameterType="string" resultMap="userMap">
+        SELECT
+        user_id,
+        userName,
+        email,
+        mobile,
+        password,
+        status,
+        create_time,
+        ssex,
+        last_login_time,
+        modify_time,
+        description
+        FROM
+        user
+        WHERE userName = #{userName}
+    </select>
+
+</mapper>
