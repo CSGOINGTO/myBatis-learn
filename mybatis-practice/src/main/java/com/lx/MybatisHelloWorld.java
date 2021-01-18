@@ -11,7 +11,7 @@ import java.io.Reader;
 
 public class MybatisHelloWorld {
     public static void main(String[] args) {
-        String resource = "resource/config.xml";
+        String resource = "config.xml";
         Reader reader;
         try {
             reader = Resources.getResourceAsReader(resource);
@@ -19,7 +19,7 @@ public class MybatisHelloWorld {
 
             SqlSession session = sqlMapper.openSession();
             try {
-                User user = session.selectOne("org.apache.ibatis.aTest.mapper.UserMapper.findByName", "system");
+                User user = session.selectOne("com.lx.mapper.UserMapper.findByName", "system");
                 System.out.println(user);
             } finally {
                 session.close();

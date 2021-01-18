@@ -10,7 +10,7 @@ public interface UserMapper {
      * @param username 用户名
      * @return 用户
      */
-    @Select("SELECT user_id, userName, email, mobile, password, status, create_time, ssex, last_login_time, modify_time, description FROM user WHERE userName = #{userName}")
+//    @Select("SELECT user_id, userName, email, mobile, password, status, create_time, ssex, last_login_time, modify_time, description FROM user WHERE userName = #{userName}")
     User findByName(String username);
 
     /**

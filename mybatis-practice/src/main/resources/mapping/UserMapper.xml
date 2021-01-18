@@ -39,7 +39,7 @@
         </if>
     </sql>
 
-    <update id="updateUser" parameterType="org.apache.ibatis.aTest.pojo.User">
+    <update id="updateUser" parameterType="com.lx.pojo.User">
         update user
         <trim prefix="set" suffixOverrides=",">
             <if test="userName != null and userName != ''">
@@ -122,7 +122,7 @@
         MODIFY_TIME,
         DESCRIPTION
     </sql>
-    <insert id="insertUser" parameterType="org.apache.ibatis.aTest.pojo.User">
+    <insert id="insertUser" parameterType="com.lx.pojo.User">
         insert into user
         values (
             #{userId}, #{userName}, #{password}, #{sex}, #{email}, #{mobile}, #{status}, #{createTime}, #{modifyTime}, #{lastLoginTime}, #{description}
